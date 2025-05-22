@@ -9,21 +9,22 @@ import java.io.IOException;
 public class DatosLogin {
     public ArrayList<String> credenciales = new ArrayList<>();
 
-    /**
-     * Constructor que inicializa las credenciales desde el archivo.
-     */
     public DatosLogin() {
-        cargarUsuarios();
+        cargarUsuarios("src/login.txt"); // valor por defecto
+    }
+
+    public DatosLogin(String rutaArchivo) {
+        cargarUsuarios(rutaArchivo); // ruta personalizada para pruebas
     }
 
     /**
      * Lee el archivo login.txt y agrega las líneas válidas a la lista de credenciales.
      */
-    private void cargarUsuarios() {
+    private void cargarUsuarios(String rutaArchivo) {
     // TODO: Abrir archivo login.txt
     // TODO: Leer línea por línea y agregar solo las que contienen ";"
     // TODO: Ignorar líneas vacías o mal formateadas
-        try (BufferedReader lector = new BufferedReader(new FileReader("src/login.txt"))) {
+        try (BufferedReader lector = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea;
             while ((linea = lector.readLine()) != null) {
                 linea = linea.trim(); // eliminar espacios al inicio y al final
