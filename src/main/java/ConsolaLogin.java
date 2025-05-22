@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -6,8 +7,17 @@ import java.util.Scanner;
  */
 public class ConsolaLogin {
     Scanner sc = new Scanner(System.in);
-    DatosLogin datos = new DatosLogin();
+    DatosLogin datos;
+    {
+        try {
+            datos = new DatosLogin();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     Login login = new Login();
+
 
     /**
      * Controla el ciclo principal del menú del sistema.

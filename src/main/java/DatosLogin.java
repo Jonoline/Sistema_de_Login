@@ -9,18 +9,18 @@ import java.io.IOException;
 public class DatosLogin {
     public ArrayList<String> credenciales = new ArrayList<>();
 
-    public DatosLogin() {
+    public DatosLogin() throws IOException {
         cargarUsuarios("src/login.txt"); // valor por defecto
     }
 
-    public DatosLogin(String rutaArchivo) {
+    public DatosLogin(String rutaArchivo) throws IOException {
         cargarUsuarios(rutaArchivo); // ruta personalizada para pruebas
     }
 
     /**
      * Lee el archivo login.txt y agrega las líneas válidas a la lista de credenciales.
      */
-    private void cargarUsuarios(String rutaArchivo) {
+    private void cargarUsuarios(String rutaArchivo)throws IOException {
     // TODO: Abrir archivo login.txt
     // TODO: Leer línea por línea y agregar solo las que contienen ";"
     // TODO: Ignorar líneas vacías o mal formateadas
@@ -37,7 +37,7 @@ public class DatosLogin {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error al leer el archivo: " + e.getMessage());
+            throw new IOException("No se ha encontrado el archivo" );
         }
 
     }

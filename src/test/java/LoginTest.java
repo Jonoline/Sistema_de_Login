@@ -2,6 +2,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LoginTest {
@@ -12,7 +14,11 @@ class LoginTest {
     @BeforeEach
     void setUp() {
         login = new Login();
-        datos = new DatosLogin();
+        try {
+            datos = new DatosLogin();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -36,11 +42,8 @@ class LoginTest {
     }
 
     @Test
-    void archivoNoEncontrado() {
-        DatosLogin datos = new DatosLogin("ruta/inexistente.txt");
-
-        // Assert: comprobar que el resultado es true
-        assertTrue(datos.credenciales.isEmpty(), "Las credenciales deben estar vacías si el archivo no existe");
+    void archivoNoEncontrado() throws IOException {
+        assertThrows(IOException.class, () -> { new DatosLogin("ruta/inexistente.txt");
+            }, "Debe lanzar IOException si el archivo no existe");
     }
-
 }
