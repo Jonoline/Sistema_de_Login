@@ -1,3 +1,5 @@
+package datos;
+
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,7 +12,7 @@ public class DatosLogin {
     public ArrayList<String> credenciales = new ArrayList<>();
 
     public DatosLogin() throws IOException {
-        cargarUsuarios("src/login.txt"); // valor por defecto
+        cargarUsuarios("src/main/java/datos/login.txt"); // valor por defecto
     }
 
     public DatosLogin(String rutaArchivo) throws IOException {

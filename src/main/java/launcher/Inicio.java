@@ -1,4 +1,6 @@
+package launcher;
 
+import ui.ConsolaLogin;
 
 public class Inicio {
     public static void main(String[] args) {

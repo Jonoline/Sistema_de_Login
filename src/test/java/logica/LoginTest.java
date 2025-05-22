@@ -1,4 +1,6 @@
-import org.junit.jupiter.api.AfterEach;
+package logica;
+
+import datos.DatosLogin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

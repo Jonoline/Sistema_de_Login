@@ -1,3 +1,7 @@
+package logica;
+
+import datos.DatosLogin;
+
 /**
  * Clase encargada de verificar las credenciales del usuario.
  */
@@ -8,7 +12,7 @@ public class Login {
      *
      * @param usuario nombre de usuario ingresado
      * @param contrasena contraseña ingresada
-     * @param datos objeto DatosLogin que contiene la lista de credenciales
+     * @param datos objeto datos.DatosLogin que contiene la lista de credenciales
      * @return true si las credenciales son válidas, false en caso contrario
      */
     public boolean autenticar(String usuario, String contrasena, DatosLogin datos) {
