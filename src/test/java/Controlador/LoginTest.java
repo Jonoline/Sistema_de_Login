@@ -1,6 +1,6 @@
-package logica;
+package Controlador;
 
-import datos.DatosLogin;
+import Modelo.DatosLogin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +45,7 @@ class LoginTest {
 
     @Test
     void archivoNoEncontrado() throws IOException {
-        assertThrows(IOException.class, () -> { new DatosLogin("ruta/inexistente.txt");
+        assertThrows(IOException.class, () -> { new DatosLoginTest("ruta/inexistente.txt");
             }, "Debe lanzar IOException si el archivo no existe");
     }
 }

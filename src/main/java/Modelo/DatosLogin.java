@@ -1,5 +1,6 @@
-package datos;
+package Modelo;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,15 +10,37 @@ import java.io.IOException;
  * Clase responsable de cargar las credenciales desde un archivo.
  */
 public class DatosLogin {
-    public ArrayList<String> credenciales = new ArrayList<>();
+    private final String archivo = "login.txt";
 
-    public DatosLogin() throws IOException {
-        cargarUsuarios("src/main/java/datos/login.txt"); // valor por defecto
+    public ArrayList<String> getCredenciales() {
+        return credenciales;
     }
 
-    public DatosLogin(String rutaArchivo) throws IOException {
-        cargarUsuarios(rutaArchivo); // ruta personalizada para pruebas
+    private final ArrayList<String> credenciales = new ArrayList<>();
+
+    public DatosLogin() {
+        try {
+            crearArchivoSiNoExiste();
+            cargarUsuarios("src/main/login.txt"); // valor por defecto
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    private void crearArchivoSiNoExiste() {
+        try {
+            // Crear el archivo
+            File archivo = new File("login.txt");
+            if (archivo.createNewFile()) {
+                System.out.println("Archivo creado: " + archivo.getName());
+            } else {
+                System.out.println("El archivo ya existe.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /**
      * Lee el archivo login.txt y agrega las líneas válidas a la lista de credenciales.
@@ -41,7 +64,6 @@ public class DatosLogin {
         } catch (IOException e) {
             throw new IOException("No se ha encontrado el archivo" );
         }
-
     }
 
 }

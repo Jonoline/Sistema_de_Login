@@ -1,10 +1,11 @@
-package ui;
+package Vista;
 
 
-import datos.DatosLogin;
-import logica.Login;
+import Controlador.SesionActiva;
+import Modelo.DatosLogin;
+import Controlador.Login;
+import Modelo.GestorUsuarios;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -13,16 +14,9 @@ import java.util.Scanner;
  */
 public class ConsolaLogin {
     Scanner sc = new Scanner(System.in);
-    DatosLogin datos;
-    {
-        try {
-            datos = new DatosLogin();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private final DatosLogin datos = new DatosLogin();
+    private final Login login = new Login();
 
-    Login login = new Login();
 
 
     /**
@@ -37,7 +31,7 @@ public class ConsolaLogin {
             if (opcion != -1) {
                 ejecutarOpcion(opcion);
             }
-        } while (opcion != 2);
+        } while (opcion != 3);
     }
 
     /**
@@ -50,7 +44,8 @@ public class ConsolaLogin {
         System.out.println("      Opciones      ");
         System.out.println("============================= ");
         System.out.println("    [1] Iniciar Sesión      ");
-        System.out.println("    [2] Salir              ");
+        System.out.println("    [2] Crear Tarea      ");
+        System.out.println("    [3] Salir              ");
         System.out.println("============================= ");
         System.out.print("      Opción: ");
     }
@@ -74,7 +69,8 @@ public class ConsolaLogin {
     private void ejecutarOpcion(int opcion) {
         switch (opcion) {
             case 1 -> manejarLogin();
-            case 2 -> System.out.println("Hasta luego...");
+            case 2 -> System.out.println("Crear Tarea Pendiente");
+            case 3 -> System.out.println("Hasta luego...");
             default -> System.out.println("Opción inválida...");
         }
     }
@@ -90,7 +86,6 @@ public class ConsolaLogin {
         String usuario = sc.nextLine();
         System.out.print("Ingrese contraseña ");
         String contrasena = sc.nextLine();
-
 
         if (login.autenticar(usuario, contrasena, datos)) {
             System.out.println("Inicio de sesión correcto ");
