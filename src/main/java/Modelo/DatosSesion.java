@@ -1,54 +1,81 @@
 package Modelo;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
+import java.io.*;
+import java.util.ArrayList;
 
 /**
- * Maneja las tareas personales de un usuario autenticado.
+ * Clase encargada de manejar las tareas de un usuario autenticado.
  */
 public class DatosSesion {
-    private final String nombreArchivo;
+    private final File archivo;
+    private final ArrayList<Tarea> tareas = new ArrayList<>();
 
+    /**
+     * Constructor que carga las tareas desde archivo.
+     *
+     * @param usuario nombre del usuario
+     */
     public DatosSesion(String usuario) {
-        this.nombreArchivo = usuario + "_todo.txt";
-        crearArchivoSiNoExiste();
+        // TODO: Cargar tareas desde archivo <usuario>_todo.txt
+        this.archivo = new File("src/main/resources/"+ usuario + "_todo.txt");
+        VerificarArchivo();
+        CargarTarea();
     }
 
     /**
-     * Crea el archivo de tareas si no existe.
+     * Agrega una nueva tarea al archivo del usuario.
+     *
+     * @param descripcion texto de la tarea
      */
-    private void crearArchivoSiNoExiste() {
-        // TODO: Verificar existencia del archivo y crearlo si no existe.
-        try {
-            // Crear el archivo
-            File archivo = new File("login.txt");
-            if (archivo.createNewFile()) {
-                System.out.println("Archivo creado: " + archivo.getName());
-            } else {
-                System.out.println("El archivo ya existe.");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+    public void agregarTarea(String descripcion) {
+        // TODO: Agregar tarea a la lista y guardarla en el archivo
+        tareas.add(new Tarea(descripcion));
+
+
+    }
+
+    private Boolean VerificarArchivo() {
+        try{
+            if(!archivo.exists()){
+            return archivo.createNewFile();
+        }
+            return true;
+        } catch (IOException e){
+            System.out.println("No se pudo crear el archivo" + e.getMessage());
+            return false;
         }
     }
 
-    /**
-     * Escribe una nueva tarea al final del archivo.
-     *
-     * @param tarea Texto de la tarea.
-     * @return true si se guardó correctamente, false si ocurrió un error.
-     */
-    public boolean escribirTarea(String tarea) {
-        // TODO: Implementar escritura en el archivo.
-        return false;
+    private void GuardarTarea(){
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(archivo))){
+            for( Tarea t : tareas){
+                escritor.write(t.getDescripcion());
+                escritor.newLine();
+            }
+        } catch (IOException e){
+            System.out.println("error al ingresar tarea" + e.getMessage());
+
+        }
     }
 
-    /**
-     * Muestra todas las tareas almacenadas en el archivo.
-     */
-    public void mostrarTareas() {
-        // TODO: Leer y mostrar cada línea del archivo.
+    public void CargarTarea() {
+        try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                tareas.add(new Tarea(linea));
+            }
+        } catch (IOException e) {
+            System.out.println("error al leer el archivo" + e.getMessage());
+        }
+    }
+        /**
+         * Devuelve la lista de tareas.
+         *
+         * @return lista de tareas
+         */
+
+        public ArrayList<Tarea> getTareas() {
+        return tareas;
     }
 }

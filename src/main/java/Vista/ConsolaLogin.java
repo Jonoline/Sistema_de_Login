@@ -4,7 +4,6 @@ package Vista;
 import Controlador.SesionActiva;
 import Modelo.DatosLogin;
 import Controlador.Login;
-import Modelo.GestorUsuarios;
 import Modelo.Usuario;
 
 import java.util.Scanner;
@@ -25,14 +24,13 @@ public class ConsolaLogin {
      */
     public void menu() {
         // TODO: Mostrar mensaje de bienvenida y manejar login
-        int opcion=0;
         System.out.println("\n=============================");
         System.out.println("            Sistema de Login con Tareas Personales        ");
-        System.out.println("      Inicio de Sesion     ");
+        System.out.println("      Inicio de Sesión     ");
         System.out.println("============================= ");
         do {
             manejarLogin();
-        } while (opcion !=3);
+        } while (true);
     }
 
     /**

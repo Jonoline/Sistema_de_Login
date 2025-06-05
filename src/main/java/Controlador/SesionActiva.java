@@ -86,10 +86,16 @@ public class SesionActiva {
 
     private void escribirTarea() {
         // TODO: Pedir tarea al usuario y delegar a datosSesion.
+        System.out.println("Ingrese una tarea a realizar");
+        String descripcion= sc.nextLine();
+        datosSesion.agregarTarea(descripcion);
+        mostrarTareas();
     }
 
     private void mostrarTareas() {
         // TODO: Mostrar todas las tareas disponibles
+        System.out.println("Tareas disponibles:");
+        datosSesion.getTareas().forEach(tarea -> System.out.println(tarea.getDescripcion()));
     }
 
     private void registrarUsuario() {
