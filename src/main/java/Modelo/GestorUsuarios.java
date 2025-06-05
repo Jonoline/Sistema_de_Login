@@ -1,8 +1,8 @@
 package Modelo;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Registra nuevos usuarios en login.txt.
@@ -16,6 +16,27 @@ public class GestorUsuarios {
 
     public boolean registrar(String usuario, String clave) {
         // TODO: Agregar usuario al archivo login.txt.
-        return false;
+        // Verificar si el usuario ya existe
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (linea.startsWith(usuario + ";")) {
+                    return false; // El usuario ya existe
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("No se pudo leer login.txt: " + e.getMessage());
+            return false;
+        }
+
+        // Agregar nuevo usuario
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo, true))) {
+            bw.newLine();
+            bw.write(usuario + ";" + clave);
+            return true;
+        } catch (IOException e) {
+            System.out.println("No se pudo escribir en login.txt: " + e.getMessage());
+            return false;
+        }
     }
 }

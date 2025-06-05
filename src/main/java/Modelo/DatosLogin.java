@@ -20,27 +20,11 @@ public class DatosLogin {
 
     public DatosLogin() {
         try {
-            crearArchivoSiNoExiste();
             cargarUsuarios("src/main/login.txt"); // valor por defecto
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
-    private void crearArchivoSiNoExiste() {
-        try {
-            // Crear el archivo
-            File archivo = new File("login.txt");
-            if (archivo.createNewFile()) {
-                System.out.println("Archivo creado: " + archivo.getName());
-            } else {
-                System.out.println("El archivo ya existe.");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
     /**
      * Lee el archivo login.txt y agrega las líneas válidas a la lista de credenciales.

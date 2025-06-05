@@ -21,6 +21,17 @@ public class DatosSesion {
      */
     private void crearArchivoSiNoExiste() {
         // TODO: Verificar existencia del archivo y crearlo si no existe.
+        try {
+            // Crear el archivo
+            File archivo = new File("login.txt");
+            if (archivo.createNewFile()) {
+                System.out.println("Archivo creado: " + archivo.getName());
+            } else {
+                System.out.println("El archivo ya existe.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

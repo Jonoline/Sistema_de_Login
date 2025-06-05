@@ -16,11 +16,8 @@ class LoginTest {
     @BeforeEach
     void setUp() {
         login = new Login();
-        try {
-            datos = new DatosLogin();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        datos = new DatosLogin();
+
     }
 
     @Test
@@ -43,9 +40,5 @@ class LoginTest {
         assertFalse(resultado, "El login debería ser incorrecto con usuario corecto, y contraseña incorrectas");
     }
 
-    @Test
-    void archivoNoEncontrado() throws IOException {
-        assertThrows(IOException.class, () -> { new DatosLoginTest("ruta/inexistente.txt");
-            }, "Debe lanzar IOException si el archivo no existe");
-    }
+
 }

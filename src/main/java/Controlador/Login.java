@@ -19,7 +19,6 @@ public class Login {
         // TODO: Crear String intento = usuario + ";" + clave
         // TODO: Recorrer datos.credenciales y comparar con intento
         String credencial = usuario + ";" + contrasena;
-
         if (datos.getCredenciales().contains(credencial)){
             return true;
         }

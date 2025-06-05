@@ -2,6 +2,7 @@ package Controlador;
 
 import Modelo.DatosSesion;
 import Modelo.GestorUsuarios;
+import Modelo.Usuario;
 
 import java.util.Scanner;
 
@@ -9,16 +10,15 @@ import java.util.Scanner;
  * Representa la sesión de un usuario logueado.
  */
 public class SesionActiva {
-    Scanner sc = new Scanner(System.in);
-    private final String usuario;
-    private final Scanner scanner = new Scanner(System.in);
+    private final Usuario usuario;
+    private final Scanner sc = new Scanner(System.in);
     private final DatosSesion datosSesion;
-    private final GestorUsuarios usuarios = new GestorUsuarios();
+    private final GestorUsuarios gestorUsuarios = new GestorUsuarios();
 
 
-    public SesionActiva(String usuario) {
+    public SesionActiva(Usuario usuario) {
         this.usuario = usuario;
-        this.datosSesion = new DatosSesion(usuario);
+        this.datosSesion = new DatosSesion(usuario.getNombre());
     }
 
     /**
@@ -34,7 +34,7 @@ public class SesionActiva {
             if (opcion != -1) {
                 ejecutarOpcion(opcion);
             }
-        } while (opcion != 2);
+        } while (opcion !=3);
     }
     public void mostrarOpciones() {
         // TODO: Mostrar opciones según si el usuario es admin o no.
@@ -42,15 +42,20 @@ public class SesionActiva {
         // TODO: Registrar usuarios (solo admin).
         // TODO: Salir de sesión.
         System.out.println("\n=============================");
-        System.out.println("            Opciones Admin        ");
-        System.out.println("      Opciones      ");
-        System.out.println("============================= ");
-        System.out.println("    [1] Escribir tareas      ");
-        System.out.println("    [2] Crear Usuario      ");
-        System.out.println("    [3] Salir              ");
-        System.out.println("============================= ");
-        System.out.print("      Opción: ");
+        System.out.println("  Sesión de: " + usuario.getNombre());
+        System.out.println("=============================");
+        System.out.println("[1] Escribir tarea");
+
+        if (usuario.getNombre().equals("admin")) {
+            System.out.println("[2] Crear nuevo usuario");
+            System.out.println("[3] Salir");
+        } else {
+            System.out.println("[3] Salir");
+        }
+        System.out.println("=============================");
+        System.out.print("Opción: ");
     }
+
     private int obtenerOpcion(int opcion) {
         // TODO: Si es "1" llamar a manejarLogin, si es "2" salir
         try {
@@ -63,11 +68,19 @@ public class SesionActiva {
     }
 
     private void ejecutarOpcion(int opcion) {
-        switch (opcion) {
-            case 1 -> escribirTarea();
-            case 2 -> registrarUsuario();
-            case 3 -> System.out.println("Hasta luego...");
-            default -> System.out.println("Opción inválida...");
+        if (usuario.getNombre().equals("admin")) {
+            switch (opcion) {
+                case 1 -> escribirTarea();
+                case 2 -> registrarUsuario();
+                case 3 -> System.out.println("Cerrando sesión...");
+                default -> System.out.println("Opción inválida");
+            }
+        } else {
+            switch (opcion) {
+                case 1 -> escribirTarea();
+                case 3 -> System.out.println("Cerrando sesión...");
+                default -> System.out.println("Opción inválida");
+            }
         }
     }
 
@@ -75,7 +88,21 @@ public class SesionActiva {
         // TODO: Pedir tarea al usuario y delegar a datosSesion.
     }
 
+    private void mostrarTareas() {
+        // TODO: Mostrar todas las tareas disponibles
+    }
+
     private void registrarUsuario() {
         // TODO: Usar GestorUsuarios para registrar un nuevo usuario.
+        System.out.print("Ingrese nuevo nombre de usuario: ");
+        String nuevoUsuario = sc.nextLine();
+        System.out.print("Ingrese contraseña: ");
+        String nuevaClave = sc.nextLine();
+
+        if (gestorUsuarios.registrar(nuevoUsuario, nuevaClave)) {
+            System.out.println("Usuario registrado con éxito.");
+        } else {
+            System.out.println("Error: El usuario ya existe o hubo un problema.");
+        }
     }
 }
