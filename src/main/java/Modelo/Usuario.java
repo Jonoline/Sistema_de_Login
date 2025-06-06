@@ -27,7 +27,4 @@ public class Usuario {
         return clave;
     }
 
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
 }

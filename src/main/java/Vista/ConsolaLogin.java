@@ -6,6 +6,7 @@ import Modelo.DatosLogin;
 import Controlador.Login;
 import Modelo.Usuario;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -14,7 +15,15 @@ import java.util.Scanner;
  */
 public class ConsolaLogin {
     Scanner sc = new Scanner(System.in);
-    private final DatosLogin datos = new DatosLogin();
+    private final DatosLogin datos;
+    {
+        try {
+            datos = new DatosLogin();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private final Login login = new Login();
     private Usuario usuario;
 

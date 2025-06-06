@@ -3,7 +3,7 @@ package Controlador;
 import Modelo.DatosSesion;
 import Modelo.GestorUsuarios;
 import Modelo.Usuario;
-
+import Modelo.Tarea;
 import java.util.Scanner;
 
 /**
@@ -13,13 +13,14 @@ public class SesionActiva {
     private final Usuario usuario;
     private final Scanner sc = new Scanner(System.in);
     private final DatosSesion datosSesion;
-    private final GestorUsuarios gestorUsuarios = new GestorUsuarios();
-
+    private final GestorUsuarios gestorUsuarios;
 
     public SesionActiva(Usuario usuario) {
         this.usuario = usuario;
         this.datosSesion = new DatosSesion(usuario.getNombre());
+        this.gestorUsuarios = new GestorUsuarios();
     }
+
 
     /**
      * Ciclo de operaciones disponibles en sesión.
@@ -88,7 +89,7 @@ public class SesionActiva {
         // TODO: Pedir tarea al usuario y delegar a datosSesion.
         System.out.println("Ingrese una tarea a realizar");
         String descripcion= sc.nextLine();
-        datosSesion.agregarTarea(descripcion);
+        datosSesion.EscribirTarea(descripcion);
         mostrarTareas();
     }
 

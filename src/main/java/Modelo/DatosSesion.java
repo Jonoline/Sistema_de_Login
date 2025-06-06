@@ -22,19 +22,6 @@ public class DatosSesion {
         CargarTarea();
     }
 
-    /**
-     * Agrega una nueva tarea al archivo del usuario.
-     *
-     * @param descripcion texto de la tarea
-     */
-
-    public void agregarTarea(String descripcion) {
-        // TODO: Agregar tarea a la lista y guardarla en el archivo
-        tareas.add(new Tarea(descripcion));
-
-
-    }
-
     private Boolean VerificarArchivo() {
         try{
             if(!archivo.exists()){
@@ -57,6 +44,11 @@ public class DatosSesion {
             System.out.println("error al ingresar tarea" + e.getMessage());
 
         }
+    }
+
+    public void EscribirTarea(String tarea){
+        tareas.add(new Tarea(tarea));
+        GuardarTarea();
     }
 
     public void CargarTarea() {

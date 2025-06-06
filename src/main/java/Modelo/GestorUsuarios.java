@@ -6,24 +6,24 @@ import java.io.*;
  * Registra nuevos usuarios en login.txt.
  */
 public class GestorUsuarios {
-    private final String archivo = "login.txt";
+    private final File archivo;
 
     public GestorUsuarios() {
         // TODO: Crear archivo si no existe.
-        try {
-            // Crear el archivo
-            File archivo = new File("login.txt");
-            if (archivo.createNewFile()) {
-                System.out.println("Archivo creado: " + archivo.getName());
-            } else {
-                System.out.println("El archivo ya existe.");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        archivo = new File("src/main/resources/login.txt");
+        VerificarArchivo();
+    }
+
+    private Boolean VerificarArchivo() {
+        try{
+            return archivo.createNewFile();
+        } catch (IOException e){
+            System.out.println("No se pudo crear el archivo" + e.getMessage());
+            return false;
         }
     }
 
-    public boolean registrar(String usuario, String clave) {
+        public boolean registrar(String usuario, String clave) {
         // TODO: Agregar usuario al archivo login.txt.
         // Verificar si el usuario ya existe
         if (verificarUsuario(usuario, clave)) {
@@ -40,10 +40,8 @@ public class GestorUsuarios {
         return false;
     }
 
-
     public boolean verificarUsuario(String usuario, String clave) {
-        // TODO: Agregar usuario al archivo login.txt.
-        // Verificar si el usuario ya existe
+        // TODO: Verificar si el usuario ya existe
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = br.readLine()) != null) {
