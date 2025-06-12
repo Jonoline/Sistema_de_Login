@@ -4,8 +4,9 @@ package Modelo;
  * Representa una tarea individual del usuario.
  */
 public class Tarea {
+    private boolean finalizada;
     private String descripcion;
-    private Prioridad prioridad;
+    private final Prioridad prioridad;
 
 
 
@@ -18,6 +19,7 @@ public class Tarea {
         // TODO: Inicializar descripción
         this.descripcion = descripcion;
         this.prioridad = prioridad;
+        this.finalizada = false;
     }
 
     public String getDescripcion() {
@@ -29,5 +31,13 @@ public class Tarea {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public boolean estaFinalizada() {
+        return finalizada;
+    }
+
+    public void marcarFinalizada() {
+        finalizada = true;
     }
 }

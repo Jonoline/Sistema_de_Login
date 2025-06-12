@@ -2,6 +2,10 @@ package Controlador;
 
 import Modelo.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
@@ -35,7 +39,7 @@ public class SesionActiva {
             if (opcion != -1) {
                 ejecutarOpcion(opcion);
             }
-        } while (opcion !=3);
+        } while (opcion !=4);
     }
     public void mostrarOpciones() {
         // TODO: Mostrar opciones según si el usuario es admin o no.
@@ -46,12 +50,14 @@ public class SesionActiva {
         System.out.println("  Sesión de: " + usuario.getNombre());
         System.out.println("=============================");
         System.out.println("[1] Escribir tarea");
+        System.out.println("[3] Mostrar Tareas");
+
 
         if (usuario.getNombre().equals("admin")) {
             System.out.println("[2] Crear nuevo usuario");
-            System.out.println("[3] Salir");
+            System.out.println("[4] Salir");
         } else {
-            System.out.println("[3] Salir");
+            System.out.println("[4] Salir");
         }
         System.out.println("=============================");
         System.out.print("Opción: ");
@@ -73,13 +79,15 @@ public class SesionActiva {
             switch (opcion) {
                 case 1 -> escribirTarea();
                 case 2 -> registrarUsuario();
-                case 3 -> System.out.println("Cerrando sesión...");
+                case 3 -> mostrarTareas();
+                case 4 -> System.out.println("Cerrando sesión...");
                 default -> System.out.println("Opción inválida");
             }
         } else {
             switch (opcion) {
                 case 1 -> escribirTarea();
-                case 3 -> System.out.println("Cerrando sesión...");
+                case 3 -> mostrarTareas();
+                case 4 -> System.out.println("Cerrando sesión...");
                 default -> System.out.println("Opción inválida");
             }
         }
@@ -91,7 +99,6 @@ public class SesionActiva {
         System.out.println("Seleccione prioridad (1-BAJA, 2-MEDIA, 3-ALTA):");
         Prioridad prioridad = obtenerPrioridad();
         datosSesion.EscribirTarea(descripcion, prioridad);
-        mostrarTareas();
     }
 
         private Prioridad obtenerPrioridad() {
@@ -114,10 +121,27 @@ public class SesionActiva {
             }
         }
 
-        private void mostrarTareas() {
-        // TODO: Mostrar todas las tareas disponibles
+    private void mostrarTareas() {
         System.out.println("Tareas disponibles:");
-        datosSesion.getTareas().forEach(tarea -> System.out.println(tarea.getDescripcion()));
+        File archivo = new File("src/main/resources/" + usuario.getNombre()+"_todo" + ".txt");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(String.valueOf(archivo)))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                linea = linea.trim();
+                if (!linea.isEmpty() && linea.contains(";")) {
+                    String[] partes = linea.split(";");
+                    if (partes.length == 3) {  // Descripción, Prioridad, Estado
+                        String descripcion = partes[0];
+                        String prioridad = partes[1];
+                        boolean estado = Boolean.parseBoolean(partes[2]);
+                        System.out.println("Descripcion "+ descripcion +" Prioridad " + prioridad + " Finalizado=" + estado);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer las tareas: " + e.getMessage());
+        }
     }
 
     private void registrarUsuario() {

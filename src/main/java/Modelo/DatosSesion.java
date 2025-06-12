@@ -10,6 +10,7 @@ public class DatosSesion {
     private final File archivo;
     private final ArrayList<Tarea> tareas = new ArrayList<>();
     private HistorialSesion historial;
+    private Prioridad prioridad;
 
     /**
      * Constructor que carga las tareas desde archivo.
@@ -60,7 +61,7 @@ public class DatosSesion {
         try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = lector.readLine()) != null) {
-                tareas.add(new Tarea(linea,Prioridad.ALTA));
+                tareas.add(new Tarea(linea,prioridad));
             }
         } catch (IOException e) {
             System.out.println("error al leer el archivo" + e.getMessage());

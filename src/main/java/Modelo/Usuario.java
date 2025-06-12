@@ -7,10 +7,10 @@ import java.util.List;
  * Clase que representa a un usuario del sistema.
  */
 public class Usuario {
-    private String nombre;
-    private String clave;
+    private final String nombre;
+    private final String clave;
     private final Perfil perfil;
-    private List<Tarea> tareas;
+    private final List<Tarea> tareas;
 
     /**
      * Constructor que inicializa los atributos del usuario.
