@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class DatosSesion {
     private final File archivo;
     private final ArrayList<Tarea> tareas = new ArrayList<>();
+    private HistorialSesion historial;
 
     /**
      * Constructor que carga las tareas desde archivo.
@@ -20,6 +21,10 @@ public class DatosSesion {
         this.archivo = new File("src/main/resources/"+ usuario + "_todo.txt");
         VerificarArchivo();
         CargarTarea();
+    }
+
+    public ArrayList<Tarea> getTareas() {
+        return tareas;
     }
 
     private Boolean VerificarArchivo() {
@@ -37,7 +42,7 @@ public class DatosSesion {
     private void GuardarTarea(){
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(archivo))){
             for( Tarea t : tareas){
-                escritor.write(t.getDescripcion());
+                escritor.write(t.getDescripcion() +";"+ t.getPrioridad());
                 escritor.newLine();
             }
         } catch (IOException e){
@@ -46,8 +51,8 @@ public class DatosSesion {
         }
     }
 
-    public void EscribirTarea(String tarea){
-        tareas.add(new Tarea(tarea));
+    public void EscribirTarea(String tarea, Prioridad prioridad){
+        tareas.add(new Tarea(tarea,prioridad));
         GuardarTarea();
     }
 
@@ -55,19 +60,11 @@ public class DatosSesion {
         try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = lector.readLine()) != null) {
-                tareas.add(new Tarea(linea));
+                tareas.add(new Tarea(linea,Prioridad.ALTA));
             }
         } catch (IOException e) {
             System.out.println("error al leer el archivo" + e.getMessage());
         }
     }
-        /**
-         * Devuelve la lista de tareas.
-         *
-         * @return lista de tareas
-         */
 
-        public ArrayList<Tarea> getTareas() {
-        return tareas;
-    }
 }

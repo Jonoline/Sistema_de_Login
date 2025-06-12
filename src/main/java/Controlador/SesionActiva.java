@@ -1,10 +1,10 @@
 package Controlador;
 
-import Modelo.DatosSesion;
-import Modelo.GestorUsuarios;
-import Modelo.Usuario;
-import Modelo.Tarea;
+import Modelo.*;
+
 import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * Representa la sesión de un usuario logueado.
@@ -60,7 +60,7 @@ public class SesionActiva {
     private int obtenerOpcion(int opcion) {
         // TODO: Si es "1" llamar a manejarLogin, si es "2" salir
         try {
-            opcion = Integer.parseInt(sc.nextLine());
+            opcion = parseInt(sc.nextLine());
         } catch (NumberFormatException e) {
             System.out.println("Ingrese un número válido.");
             return -1; // Devolver un valor inválido para que no ejecute ninguna opción
@@ -86,14 +86,35 @@ public class SesionActiva {
     }
 
     private void escribirTarea() {
-        // TODO: Pedir tarea al usuario y delegar a datosSesion.
-        System.out.println("Ingrese una tarea a realizar");
-        String descripcion= sc.nextLine();
-        datosSesion.EscribirTarea(descripcion);
+        System.out.println("Ingrese una tarea a realizar:");
+        String descripcion = sc.nextLine();
+        System.out.println("Seleccione prioridad (1-BAJA, 2-MEDIA, 3-ALTA):");
+        Prioridad prioridad = obtenerPrioridad();
+        datosSesion.EscribirTarea(descripcion, prioridad);
         mostrarTareas();
     }
 
-    private void mostrarTareas() {
+        private Prioridad obtenerPrioridad() {
+            while (true) {
+                try {
+                    int valorPrioridad = Integer.parseInt(sc.nextLine());
+                    switch (valorPrioridad) {
+                        case 1:
+                            return Prioridad.BAJA;
+                        case 2:
+                            return Prioridad.MEDIA;
+                        case 3:
+                            return Prioridad.ALTA;
+                        default:
+                            System.out.println("Seleccione una prioridad válida (1-3):");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Por favor, ingrese un número válido (1-3):");
+                }
+            }
+        }
+
+        private void mostrarTareas() {
         // TODO: Mostrar todas las tareas disponibles
         System.out.println("Tareas disponibles:");
         datosSesion.getTareas().forEach(tarea -> System.out.println(tarea.getDescripcion()));

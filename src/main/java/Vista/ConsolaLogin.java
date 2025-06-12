@@ -4,9 +4,11 @@ package Vista;
 import Controlador.SesionActiva;
 import Modelo.DatosLogin;
 import Controlador.Login;
+import Modelo.Perfil;
 import Modelo.Usuario;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 /**
@@ -33,10 +35,10 @@ public class ConsolaLogin {
      */
     public void menu() {
         // TODO: Mostrar mensaje de bienvenida y manejar login
-        System.out.println("\n=============================");
-        System.out.println("            Sistema de Login con Tareas Personales        ");
-        System.out.println("      Inicio de Sesión     ");
-        System.out.println("============================= ");
+        System.out.println("\n  ===========================================");
+        System.out.println("     Sistema de Login con Tareas Personales        ");
+        System.out.println("              Inicio de Sesión     ");
+        System.out.println("  ============================================= ");
         do {
             manejarLogin();
         } while (true);
@@ -52,14 +54,17 @@ public class ConsolaLogin {
         String nombreUsuario = sc.nextLine();
         System.out.print("Ingrese contraseña: ");
         String contrasena = sc.nextLine();
+        System.out.print("Ingrese correo electrónico: ");
+        String correo = sc.nextLine();
+
 
         if (login.autenticar(nombreUsuario, contrasena, datos)) {
-            System.out.println("Inicio de sesión correcto");
-            this.usuario = new Usuario(nombreUsuario, contrasena); // Crear usuario
+            System.out.println("\nInicio de sesión correcto");
+            this.usuario = new Usuario(nombreUsuario, contrasena, new Perfil(correo, LocalDateTime.now())); // Crear usuario
             SesionActiva sesion = new SesionActiva(usuario);       // Pasar usuario
             sesion.menuSesion();
         } else {
-            System.out.println("Datos incorrectos");
+            System.out.println("\nDatos incorrectos");
         }
     }
 }
