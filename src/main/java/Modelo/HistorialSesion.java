@@ -3,27 +3,23 @@ package Modelo;
 import java.time.LocalDateTime;
 
 public class HistorialSesion {
-    private final LocalDateTime inicio;
+    private final LocalDateTime inicioSesion;
     private int tareasAgregadas;
 
-
-
-    public HistorialSesion(LocalDateTime inicio, int tareasAgregadas) {
-        this.inicio = inicio;
+    public HistorialSesion() {
+        this.inicioSesion = LocalDateTime.now();
         this.tareasAgregadas = 0;
     }
 
-    public LocalDateTime getInicio() {
-        return inicio;
+    public void registrarTarea() {
+        tareasAgregadas++;
+    }
+
+    public LocalDateTime getInicioSesion() {
+        return inicioSesion;
     }
 
     public int getTareasAgregadas() {
         return tareasAgregadas;
     }
-
-    public void registrarNuevaTarea() {
-        tareasAgregadas++;
-    }
-
-
 }

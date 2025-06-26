@@ -1,0 +1,7 @@
+nataly;clave123;0
+catalina;gato456;0
+donnie;perro789;0
+kitty;miau321;0
+isi;chao987;0
+xiao;ola123;0
+admin;12345;1

@@ -1,71 +1,65 @@
 package Modelo;
 
 import java.io.*;
-import java.util.ArrayList;
 
-/**
- * Clase encargada de manejar las tareas de un usuario autenticado.
- */
 public class DatosSesion {
-    private final File archivo;
-    private final ArrayList<Tarea> tareas = new ArrayList<>();
-    private HistorialSesion historial;
-    private Prioridad prioridad;
+    private final Usuario usuario;
+    private final HistorialSesion historial;
+    private final String archivo;
 
-    /**
-     * Constructor que carga las tareas desde archivo.
-     *
-     * @param usuario nombre del usuario
-     */
-    public DatosSesion(String usuario) {
-        // TODO: Cargar tareas desde archivo <usuario>_todo.txt
-        this.archivo = new File("src/main/resources/"+ usuario + "_todo.txt");
-        VerificarArchivo();
-        CargarTarea();
+    public DatosSesion(Usuario usuario) {
+        this.usuario = usuario;
+        this.archivo = usuario.getNombre() + "_todo.txt";
+        this.historial = new HistorialSesion();
+        cargarTareas();
     }
 
-    public ArrayList<Tarea> getTareas() {
-        return tareas;
-    }
-
-    private Boolean VerificarArchivo() {
-        try{
-            if(!archivo.exists()){
-            return archivo.createNewFile();
-        }
-            return true;
-        } catch (IOException e){
-            System.out.println("No se pudo crear el archivo" + e.getMessage());
-            return false;
-        }
-    }
-
-    private void GuardarTarea(){
-        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(archivo))){
-            for( Tarea t : tareas){
-                escritor.write(t.getDescripcion() +";"+ t.getPrioridad());
-                escritor.newLine();
+    private boolean crearArchivoSiNoExiste(File file) {
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Error al crear archivo de tareas: " + archivo);
+                return false;
             }
-        } catch (IOException e){
-            System.out.println("error al ingresar tarea" + e.getMessage());
-
         }
+        return true;
     }
 
-    public void EscribirTarea(String tarea, Prioridad prioridad){
-        tareas.add(new Tarea(tarea,prioridad));
-        GuardarTarea();
-    }
+    private void cargarTareas() {
+        File file = new File(archivo);
+        if (!crearArchivoSiNoExiste(file)) return;
 
-    public void CargarTarea() {
-        try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String linea;
-            while ((linea = lector.readLine()) != null) {
-                tareas.add(new Tarea(linea,prioridad));
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(";", 2);
+                if (partes.length == 2) {
+                    String descripcion = partes[0];
+                    Prioridad prioridad = Prioridad.valueOf(partes[1]);
+                    usuario.agregarTarea(new Tarea(descripcion, prioridad, false));
+                }
             }
         } catch (IOException e) {
-            System.out.println("error al leer el archivo" + e.getMessage());
+            System.out.println("Error al leer tareas del archivo: " + archivo);
         }
     }
 
+    public void agregarTarea(Tarea tarea) {
+        usuario.agregarTarea(tarea);
+        historial.registrarTarea();
+        guardarTareaEnArchivo(tarea);
+    }
+
+    private void guardarTareaEnArchivo(Tarea tarea) {
+        try (FileWriter fw = new FileWriter(archivo, true)) {
+            fw.write(tarea.getDescripcion() + ";" + tarea.getPrioridad() + "\n");
+        } catch (IOException e) {
+            System.out.println("Error al guardar tarea en archivo: " + archivo);
+        }
+    }
+
+    public HistorialSesion getHistorial() {
+        return historial;
+    }
 }

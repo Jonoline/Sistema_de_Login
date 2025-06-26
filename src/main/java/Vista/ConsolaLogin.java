@@ -1,7 +1,6 @@
 package Vista;
 
 
-import Controlador.SesionActiva;
 import Modelo.DatosLogin;
 import Controlador.Login;
 import Modelo.Perfil;
@@ -19,16 +18,16 @@ public class ConsolaLogin {
     Scanner sc = new Scanner(System.in);
     private final DatosLogin datos;
     {
-        try {
-            datos = new DatosLogin();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        datos = new DatosLogin();
     }
 
     private final Login login = new Login();
     private Usuario usuario;
 
+
+    public ConsolaLogin() {
+        menu();
+    }
 
     /**
      * Controla el ciclo principal del menú del sistema.
@@ -47,24 +46,22 @@ public class ConsolaLogin {
     /**
      * Solicita usuario y contraseña, y muestra el resultado.
      */
+
     private void manejarLogin() {
-        // TODO: Pedir usuario y contrasena por consola
-        // TODO: Llamar a login.autenticar() y mostrar mensaje según resultado
         System.out.print("Ingrese nombre de usuario: ");
         String nombreUsuario = sc.nextLine();
         System.out.print("Ingrese contraseña: ");
         String contrasena = sc.nextLine();
-        System.out.print("Ingrese correo electrónico: ");
-        String correo = sc.nextLine();
 
+        Usuario usuarioAutenticado = login.autenticar(nombreUsuario, contrasena, datos);
 
-        if (login.autenticar(nombreUsuario, contrasena, datos)) {
-            System.out.println("\nInicio de sesión correcto");
-            this.usuario = new Usuario(nombreUsuario, contrasena, new Perfil(correo, LocalDateTime.now())); // Crear usuario
-            SesionActiva sesion = new SesionActiva(usuario);       // Pasar usuario
-            sesion.menuSesion();
+        if (usuarioAutenticado != null) {
+            usuario = usuarioAutenticado;
+            System.out.println("\nLogin exitoso!");
+            System.out.println("Usuario: " + usuario.getNombre());
+            System.out.println("Tipo: " + (usuario.esAdmin() ? "Administrador" : "Usuario normal"));
         } else {
-            System.out.println("\nDatos incorrectos");
+            System.out.println("\nError: Usuario o contraseña incorrectos");
         }
     }
 }

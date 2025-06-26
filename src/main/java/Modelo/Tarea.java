@@ -1,36 +1,30 @@
 package Modelo;
 
-/**
- * Representa una tarea individual del usuario.
- */
 public class Tarea {
-    private boolean finalizada;
     private String descripcion;
-    private final Prioridad prioridad;
+    private Prioridad prioridad;
+    private boolean finalizada;
 
-
-
-    /**
-     * Constructor que inicializa la descripción de la tarea.
-     *
-     * @param descripcion contenido de la tarea
-     */
-    public Tarea(String descripcion, Prioridad prioridad) {
-        // TODO: Inicializar descripción
+    public Tarea(String descripcion, Prioridad prioridad, boolean finalizada) {
         this.descripcion = descripcion;
         this.prioridad = prioridad;
-        this.finalizada = false;
+        this.finalizada = finalizada;
+    }
+
+    public Prioridad getPrioridad() {
+        return prioridad;
     }
 
     public String getDescripcion() {
         return descripcion;
     }
-    public Prioridad getPrioridad() {
-        return prioridad;
-    }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public void setPrioridad(Prioridad prioridad) {
+        this.prioridad = prioridad;
     }
 
     public boolean estaFinalizada() {
@@ -38,6 +32,6 @@ public class Tarea {
     }
 
     public void marcarFinalizada() {
-        finalizada = true;
+        this.finalizada = true;
     }
 }

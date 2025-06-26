@@ -1,11 +1,12 @@
 package Launcher;
 
-import Vista.ConsolaLogin;
-import java.io.IOException;
+
+import Vista.LoginView;
+
 
 public class Inicio {
-    public static void main(String[] args) throws IOException {
-        ConsolaLogin consola = new ConsolaLogin();
-        consola.menu();
+    public static void main(String[] args) {
+        LoginView loginView = new LoginView();
+        loginView.setVisible(true);
     }
 }
